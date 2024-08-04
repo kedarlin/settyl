@@ -12,7 +12,7 @@ const Login = () => {
     const [password, setPassword] = useState('');
     useEffect(() => {
         if(localStorage.getItem('token')){
-            navigate('/todo');
+            navigate('/dashboard');
         }
     }, [navigate]);
     // useEffect(() => {
