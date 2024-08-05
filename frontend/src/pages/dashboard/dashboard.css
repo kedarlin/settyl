@@ -1,0 +1,19 @@
+.dashboard {
+    padding: 0px;
+}
+
+.dashboard-title {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.employee-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.employee-list li {
+    padding: 10px;
+    border: 1px solid #ddd;
+    margin-bottom: 10px;
+}

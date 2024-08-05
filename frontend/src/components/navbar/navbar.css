@@ -45,6 +45,20 @@
     align-items: center;
     gap: 30px;
 }
+.create-employee-button{
+    padding: 5px 10px;
+    background-color: #00189d;
+    color: white;
+    font-weight: 550;
+    border-radius: 20px;
+    cursor: pointer;
+    border: #ccc solid 1px;
+    transition: .5s;
+}
+.create-employee-button:hover{
+    color: #00189d;
+    background-color: #fff;
+}
 .navbar-logout {
     cursor: pointer;
 }

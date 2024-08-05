@@ -20,7 +20,7 @@ app.use(cors());
 // Routes
 app.use('/api/user', userRoutes);
 app.use('/api/auth',authRoutes);
-app.use('/api/task', employeeRoutes);
+app.use('/api/employees', employeeRoutes);
 
 app.get('*', (req, res) => {
   res.send('Hello');

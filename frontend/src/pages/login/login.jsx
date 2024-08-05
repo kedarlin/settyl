@@ -48,7 +48,7 @@ const Login = () => {
 
     const handleLogin = async () => {
         try {
-            const response = await axios.post('https://localhost/api/auth/signin', {
+            const response = await axios.post('http://localhost:3069/api/auth/signin', {
                 email,
                 password
             });
@@ -57,7 +57,7 @@ const Login = () => {
             localStorage.setItem('userId', userId);
             localStorage.setItem('userName', userName);
             console.log(localStorage.getItem('token'), localStorage.getItem('userId'));
-            navigate('/todo');
+            navigate('/dashboard');
         } catch (error) {
             console.error('Login failed:', error);
             setErrorMessage('Invalid email or password. Please try again.');
