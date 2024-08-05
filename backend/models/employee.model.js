@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import employeeHistorySchema from './employeeHistory.model.js';
+import coordinatesSchema from './coordinates.model.js';
 
 const { Schema } = mongoose;
 
@@ -30,6 +31,10 @@ const employeeSchema = new Schema({
   employeeStatus: {
     type: String,
     enum: ['RemoteLocation', 'ContractEmployee', 'Full-Time'],
+    required: true
+  },
+  coordinates: {
+    type: coordinatesSchema,
     required: true
   },
   history: [employeeHistorySchema] // Add the history field as an array of employeeHistorySchema
