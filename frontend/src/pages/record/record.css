@@ -55,6 +55,7 @@
     width: 100%;
     table-layout: fixed;
 }
-.record-table tbody tr{
+.record-table tbody tr:hover{
     cursor: pointer;
+    background-color: aliceblue;
 }
