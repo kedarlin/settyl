@@ -16,6 +16,9 @@
 .record-table td {
     padding: 10px;
     border: 1px solid #ddd;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 
 .record-table tbody {

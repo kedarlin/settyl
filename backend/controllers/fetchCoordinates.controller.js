@@ -1,17 +1,20 @@
 import axios from 'axios';
-import { errorHandler } from '../utils/error.js';
 
-const MAPTILER_API_URL = 'https://api.maptiler.com/geocoding/';
-const MAPTILER_API_KEY = process.env.MAPTILER_API_KEY; // Ensure you have your API key in your environment variables
 
 export const fetchCoordinates = async (address) => {
+  const MAPTILER_API_URL = 'https://api.maptiler.com/geocoding/';
+  const MAPTILER_API_KEY = process.env.MAPTILER_API_KEY; // Ensure you have your API key in your environment variables
+  // console.log(MAPTILER_API_KEY);
   try {
-    const response = await axios.get(`${MAPTILER_API_URL}${address}.json`, {
-      params: {
-        key: MAPTILER_API_KEY,
-        limit: 1
-      }
-    });
+    if (!MAPTILER_API_KEY) {
+      throw new Error('MAPTILER_API_KEY is not defined');
+    }
+
+    const apiUrl = `${MAPTILER_API_URL}${encodeURIComponent(address)}.json?key=${MAPTILER_API_KEY}`;
+    // console.log(`Fetching coordinates from: ${apiUrl}`); // Log the URL for debugging
+
+    const response = await axios.get(apiUrl);
+    // console.log(response); // Log the response for debugging
 
     if (response.data.features.length === 0) {
       throw new Error('City not found');

@@ -7,7 +7,7 @@ import { fetchCoordinates } from './fetchCoordinates.controller.js';
 export const createEmployee = async (req, res, next) => {
   try {
     const { userId, employeeName, employeeAddress, employeeAge, employeeDepartment, employeeStatus, cityPlace } = req.body;
-    console.log(req.body);
+    // console.log(req.body);
     const user = await User.findById(userId);
     if (!user) {
       return next(errorHandler(404, 'User not found'));
@@ -56,12 +56,18 @@ export const getEmployee = async (req, res, next) => {
 };
 
 // Updating an employee by ID
+// Updating an employee by ID
 export const updateEmployee = async (req, res, next) => {
   try {
-    const employee = await Employee.findById(req.params.employeeId);
+    const { employeeId } = req.params;
+    const { employeeName, employeeAddress, employeeAge, employeeDepartment, employeeStatus } = req.body;
+
+    const employee = await Employee.findOne({ employeeId });
+
     if (!employee) {
       return next(errorHandler(404, 'Employee not found'));
     }
+
     // Create a history entry
     const historyEntry = {
       employeeName: employee.employeeName,
@@ -69,26 +75,22 @@ export const updateEmployee = async (req, res, next) => {
       employeeAge: employee.employeeAge,
       employeeDepartment: employee.employeeDepartment,
       employeeStatus: employee.employeeStatus,
-      changedAt: new Date()
+      coordinates: employee.coordinates,
+      changedAt: new Date(),
     };
     employee.history.push(historyEntry); // Add the history entry to the history array
 
-    if (req.body.cityPlace) {
-      const coordinates = await fetchCoordinates(req.body.cityPlace);
-      employee.coordinates = coordinates;
-    }
     // Update the employee properties
-    employee.employeeName = req.body.employeeName || employee.employeeName;
-    employee.employeeAddress = req.body.employeeAddress || employee.employeeAddress;
-    employee.employeeAge = req.body.employeeAge || employee.employeeAge;
-    employee.employeeDepartment = req.body.employeeDepartment || employee.employeeDepartment;
-    employee.employeeStatus = req.body.employeeStatus || employee.employeeStatus;
-    employee.coordinates = coordinates || employee.coordinates;
+    employee.employeeName = employeeName || employee.employeeName;
+    employee.employeeAddress = employeeAddress || employee.employeeAddress;
+    employee.employeeAge = employeeAge || employee.employeeAge;
+    employee.employeeDepartment = employeeDepartment || employee.employeeDepartment;
+    employee.employeeStatus = employeeStatus || employee.employeeStatus;
 
     await employee.save();
     res.status(200).json(employee);
   } catch (error) {
-    console.log("Error in updating employee:", error.message);
+    console.log('Error in updating employee:', error.message);
     next(errorHandler(400, error.message));
   }
 };
@@ -96,7 +98,8 @@ export const updateEmployee = async (req, res, next) => {
 // Deleting an employee by ID
 export const deleteEmployee = async (req, res, next) => {
   try {
-    await Employee.findByIdAndDelete(req.params.employeeId);
+    console.log(req.params.employeeId);
+    await Employee.findOneAndDelete({"employeeId" : req.params.employeeId});
     res.status(200).json({ message: 'Employee deleted successfully' });
   } catch (error) {
     console.log("Error in deleting employee:", error.message);

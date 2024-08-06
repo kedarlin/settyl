@@ -25,3 +25,30 @@
     flex-direction: column;
     justify-content:left;
 }
+
+.modal-head{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+.modal-oper, .modal-update, .modal-delete{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 20px;
+}
+.modal-update, .modal-delete{
+    cursor: pointer;
+    padding: 5px 10px;
+    background-color: #c3c3c3;
+    border: #ccc solid 1px;
+    border-radius: 20px;
+}
+.modal-update p, .modal-delete p{
+    margin: 0;
+}
+.modal-update:hover, .modal-delete:hover{
+    background-color: blue;
+    color: #fff;
+}

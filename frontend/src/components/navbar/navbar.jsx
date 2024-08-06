@@ -1,10 +1,13 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import CreateEmployeeModal from '../../components/createEmployeeModal/createEmployeeModal';
+import { addEmployee } from '../../Redux/employeeSlice';
 import './navbar.css';
 
 const Navbar = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
   const handleLogout = () => {
@@ -21,7 +24,18 @@ const Navbar = () => {
   };
 
   const handleCreateEmployee = (employee) => {
-    console.log('Creating employee:', employee);
+    const userId = localStorage.getItem('userId');
+    const employeeData = { ...employee, userId };
+
+    dispatch(addEmployee(employeeData))
+      .unwrap()
+      .then(() => {
+        console.log('Employee created successfully');
+        closeModal();
+      })
+      .catch((error) => {
+        console.error('Failed to create employee:', error);
+      });
   };
 
   return (

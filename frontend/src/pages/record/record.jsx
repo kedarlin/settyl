@@ -1,17 +1,22 @@
-import { useState } from 'react';
-import Navbar from "../../components/navbar/navbar";
-import EmployeeModal from '../../components/employeeModal/employeeModal'; // Import the modal component
-import "./record.css";
-
-const sampleEmployees = [
-  { employeeId: '1', employeeName: 'John Doe', employeeAddress: '123 Main St, Anytown, USA', employeeAge: 30, employeeDepartment: 'Engineering', employeeStatus: 'Full-Time', coordinates: { lat: 37.7749, lon: -122.4194 } },
-  { employeeId: '2', employeeName: 'Jane Smith', employeeAddress: '456 Oak St, Anytown, USA', employeeAge: 25, employeeDepartment: 'Marketing', employeeStatus: 'ContractEmployee', coordinates: { lat: 40.7128, lon: -74.0060 } },
-  // Add more sample data as needed
-];
+import { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import Navbar from '../../components/navbar/navbar';
+import EmployeeModal from '../../components/employeeModal/employeeModal';
+import { fetchEmployees } from '../../Redux/employeeSlice';
+import './record.css';
 
 const Record = () => {
+  const dispatch = useDispatch();
+  const employees = useSelector((state) => state.employees.items);
+  const employeeStatus = useSelector((state) => state.employees.status);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [selectedEmployee, setSelectedEmployee] = useState(null);
+
+  useEffect(() => {
+    if (employeeStatus === 'idle') {
+      dispatch(fetchEmployees());
+    }
+  }, [employeeStatus, dispatch]);
 
   const openModal = (employee) => {
     setSelectedEmployee(employee);
@@ -39,7 +44,7 @@ const Record = () => {
           </tr>
         </thead>
         <tbody>
-          {sampleEmployees.map((employee) => (
+          {employees.map((employee) => (
             <tr key={employee.employeeId} onClick={() => openModal(employee)}>
               <td>{employee.employeeId}</td>
               <td>{employee.employeeName}</td>

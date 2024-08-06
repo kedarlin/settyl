@@ -30,7 +30,6 @@ const CreateEmployeeModal = ({ modalIsOpen, closeModal, onSubmit }) => {
     } else {
       onSubmit(employee);
       setError('');
-      closeModal();
     }
   };
 
